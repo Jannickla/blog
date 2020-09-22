@@ -1,0 +1,28 @@
+<header class="headerSection">
+    <div class="header">
+        <div class="headerBar d-flex">
+            <a href="{% url 'blog:home' %}" class="noBtm siteLogo logoFont">
+                jannick.la
+            </a>
+            <nav class="top-nav-area w-100">
+                <div class="user-panel">
+                    <a href="">Login</a> / <a href="">Register</a>
+                </div>
+                <ul class="main-menu primary-menu">
+                    <li><a href="{% url 'blog:post-list' %}" class="noBtm">Blog</a>
+                        <ul class="sub-menu">
+                            <li><a href="game-single.html" class="noBtm">Django</a></li>
+                            <li><a href="game-single.html" class="noBtm">React</a></li>
+                            <li><a href="game-single.html" class="noBtm">Frontend</a></li>
+                            <li><a href="game-single.html" class="noBtm">Backend</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="contact.html" class="noBtm">Contact</a></li>
+                    {% if user.is_superuser %}
+                    <li><a href="#" onclick="openNav()" class="openbtn noBtm">Admin</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>

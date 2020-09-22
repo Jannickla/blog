@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <section class="page-top-section set-bg" style="background: url({% static 'img/page-header.jpg' %});">
+        <div class="page-info">
+            <h2>New Post</h2>
+            <div class="breadcrumb">
+                <a href="{% url 'blog:home' %}">Home</a> /
+                <span>New Post</span>
+            </div>
+        </div>
+    </section>
+    <section class="newPost whiteText">
+        <div class="container">
+            <div class="col-md-12">
+                <h3 class=" mb-5">{{ title }} an article</h3>
+                {{ form.media }}
+                <form method="POST" action="." enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button class="jl-btn float-right" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

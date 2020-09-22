@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <section class="page-top-section" style="background: url({% static 'img/page-header.jpg' %});">
+        <div class="page-info">
+            <h2>Results</h2>
+            <div class="breadcrumb">
+                <a href="{% url 'blog:home' %}">Home</a> /
+                <span>Results</span>
+            </div>
+        </div>
+    </section>
+    <section class="search">
+        <div class="container">
+            <div class="row">
+                {% for post in queryset %}
+                <article class="searchPage row">
+                    <div class="col-xs-12 col-sm-12 col-md-3">
+                        <a href="{{ post.get_absolute_url }}" title="Lorem ipsum" class="thumbnail"><img
+                                src="{{ post.thumbnail.url }}" alt="Lorem ipsum"/></a>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-2">
+                        <ul class="meta-search">
+                            <li><i class="fal fa-calendar"></i> <span>{{ post.timestamp|timesince }} ago</span></li>
+                            <li><i class="fal fa-archive"></i>
+                                <span>
+                                    {% for cat in post.categories.all %}
+                                        <a href="#">{{ cat }}</a>{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                </span>
+                            </li>
+                            <li><i class="fal fa-user"></i> <span>{{ post.author }}</span></li>
+                            <li><i class="fal fa-edit"></i> <span>{{ post.comment_count }}</span></li>
+                            <li><i class="fal fa-eye"></i> <span>{{ post.view_count }}</span></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+                        <h3><a href="{{ post.get_absolute_url }}" title="">{{ post.title }}</a></h3>
+                        <p>{{ post.overview|truncatechars:290 }}</p>
+                    </div>
+                    <span class="clearfix borda"></span>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

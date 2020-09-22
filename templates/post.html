@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <section class="page-top-section set-bg" style="background: url({% static 'img/page-header.jpg' %});">
+        <div class="page-info">
+            <h2>Games</h2>
+            <div class="breadcrumb">
+                <a href="{% url 'blog:home' %}">Home</a> /
+                <span>Games</span>
+            </div>
+        </div>
+    </section>
+    <section class="games-single-page">
+        <div class="container">
+            <div class="game-single-preview">
+                <img src="{{ post.thumbnail.url }}" alt="" />
+            </div>
+            <div class="row">
+                <div class="col-xl-9 col-lg-8 col-md-7 game-single-content">
+                    <div class="postDetails">
+                        <span><i class="fal fa-calendar"></i> {{ post.timestamp|timesince }} ago</span>
+                        <span><i class="fal fa-archive"></i>
+                            {% for cat in post.categories.all %}
+                                <a href="#">{{ cat }}</a>{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                                    </span>
+                        <span><i class="fal fa-user"></i> {{ post.author }}</span>
+                        <span><i class="fal fa-edit"></i> {{ post.comment_count }}</span>
+                        <span><i class="fal fa-eye"></i> {{ post.view_count }}</span>
+                    </div>
+                    <h2 class="gs-title">{{ post.title }}</h2>
+                    <div class="blogContentTxt">
+                        {{ post.content | safe }}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {% if post.previous_post %}
+                                <div class="prevNextBtn">
+                                    <a href="{{ post.previous_post.get_absolute_url }}"><i class="fal fa-arrow-left"></i> PREVIOUS</a>
+                                    <h6 class="text-center">{{ post.previous_post.title }}</h6>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {% if post.next_post %}
+                                <div class="prevNextBtn text-right">
+                                    <a href="{{ post.next_post.get_absolute_url }}">Next <i class="fal fa-arrow-right"></i></a>
+                                    <h6 class="text-center">{{ post.next_post.title }}</h6>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="postComments">
+                        <header>
+                            <h6>
+                                Post Comments
+                                <span class="no-of-comments">({{ post.comments.count }})</span>
+                            </h6>
+                        </header>
+                        {% for comment in post.get_comments %}
+                            <div class="comment">
+                                <div class="comment-header d-flex justify-content-between">
+                                    <div class="user d-flex align-items-center">
+                                        <div class="image">
+                                            {% if comment.user.author %}
+                                                <img src="{{ comment.user.author.profile_picture.url }}"
+                                                     alt="..." class="img-fluid rounded-circle">
+                                            {% else %}
+                                                <img src="{% static 'img/user.svg' %}" alt="..."
+                                                     class="img-fluid rounded-circle">
+                                            {% endif %}
+                                        </div>
+                                        <div class="title"><strong>{{ comment.user.username }}</strong><span
+                                                class="date ml-3">{{ comment.timestamp|timesince }} ago</span></div>
+                                    </div>
+                                </div>
+                                <div class="comment-body">
+                                    <p>{{ comment.content }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if request.user.is_authenticated %}
+                        <div class="addComment">
+                            <header>
+                                <h3 class="h6 logoFont">Leave a reply</h3>
+                            </header>
+                            <form method="POST" action="." class="commentingForm">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        {{ form }}
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <button class="jl-btn">Add Comment</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'blog:account_login' %}" class="btn btn-primary">Login to comment</a>
+                    {% endif %}
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-5 rightSidebar game-page-sideber">
+                    <div id="stickySidebar">
+                        <div class="widget-item">
+                            {% include 'sidebar.html' with most_recent=most_recent category_count=category_count %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

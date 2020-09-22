@@ -1,0 +1,112 @@
+{% block admincss %}
+    <style>
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #022F40;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            opacity: .99;
+            z-index: 999;
+        }
+
+        .sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+
+        #main {
+            transition: margin-left .5s;
+            padding: 16px;
+        }
+
+        #adminSidebar a:first-child {
+            position: relative;
+            top: -70px;
+        }
+
+        .newPost input {
+            color: #fffafa;
+            border: none;
+            background: rgba(0, 216, 255, .3);
+            padding: 15px 15px;
+            height: 60px;
+            -webkit-border-radius: 3px 30px 3px 30px;
+            -moz-border-radius: 3px 30px 3px 30px;
+            border-radius: 3px 30px 3px 30px;
+        }
+
+        .newPost textarea {
+            color: #fffafa;
+            border: none;
+            background: rgba(0, 216, 255, .3);
+            padding: 15px 15px;
+            -webkit-border-radius: 3px 50px 3px 50px;
+            -moz-border-radius: 3px 50px 3px 50px;
+            border-radius: 3px 50px 3px 50px;
+        }
+
+        .newPost select {
+            color: #fffafa;
+            border: none;
+            background: rgba(0, 216, 255, .3);
+            padding: 15px 15px;
+            min-height: 60px;
+            -webkit-border-radius: 3px 30px 3px 30px;
+            -moz-border-radius: 3px 30px 3px 30px;
+            border-radius: 3px 30px 3px 30px;
+        }
+
+        .newPost {
+            padding: 50px 0;
+            background: #022f40;
+            background: -webkit-linear-gradient(315deg, #1B4353 0%, #022f40 100%);
+            background: -o-linear-gradient(315deg, #1B4353 0%, #022f40 100%);
+            background: linear-gradient(315deg, #1B4353 0%, #022f40 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1B4353', endColorstr='#022f40', GradientType=1);
+        }
+
+        /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+        @media screen and (max-height: 450px) {
+            .sidebar {
+                padding-top: 15px;
+            }
+
+            .sidebar a {
+                font-size: 18px;
+            }
+        }
+    </style>
+{% endblock %}
+
+<div id="adminSidebar" class="sidebar">
+    <a href="javascript:void(0)" class="noBtm closeBtn text-right w-100" onclick="closeNav()"><i
+            class="fal fa-times"></i></a>
+    <a href="{% url 'blog:post-create' %}">New Post</a>
+</div>
+
+{% block adminjs %}
+    <script>
+        function openNav() {
+            document.getElementById("adminSidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("adminSidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+    </script>
+{% endblock %}

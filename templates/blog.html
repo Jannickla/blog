@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <section class="page-top-section" style="background: url({% static 'img/page-header.jpg' %});">
+        <div class="page-info">
+            <h2>Blog</h2>
+            <div class="breadcrumb">
+                <a href="">Home</a> /
+                <span>Blog</span>
+            </div>
+        </div>
+    </section>
+    <section class="blog-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 col-lg-8 col-md-7">
+                    <ul class="blogFilter">
+                        <li><a class="jl-btn" href="#">React</a></li>
+                        <li><a class="jl-btn" href="#">Django</a></li>
+                        <li><a class="jl-btn" href="#">Bootstrap</a></li>
+                        <li><a class="jl-btn" href="#">Python</a></li>
+                    </ul>
+                    {% for post in queryset %}
+                        <div class="blogItem">
+                            <img src="{{ post.thumbnail.url }}" alt="#" class="itemThumb blogThumb"/>
+                            <div class="itemContent textBox whiteText">
+                                <div class="postDetails">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span>
+                                                <i class="fal fa-calendar"></i> {{ post.timestamp|timesince }} ago
+                                            </span>
+                                            <span>
+                                                <i class="fal fa-archive"></i>
+                                                {% for cat in post.categories.all %}
+                                                    <a href="#">{{ cat }}</a>{% if not forloop.last %}, {% endif %}
+                                                {% endfor %}
+                                            </span>
+                                            <span>
+                                                <i class="fal fa-user"></i> {{ post.author }}
+                                            </span>
+                                            <span>
+                                                <i class="fal fa-edit"></i> {{ post.comment_count }}
+                                            </span>
+                                            <span>
+                                                <i class="fal fa-eye"></i> {{ post.view_count }}
+                                            </span>
+                                            <h3>{{ post.title }}</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <p>{{ post.overview|truncatechars:290 }}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="{{ post.get_absolute_url }}" class="viewArticle">
+                                                View Article <i class="fal fa-arrow-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-5 rightSidebar game-page-sideber">
+                    <div id="stickySidebar">
+                        <div class="widget-item">
+                            {% include 'sidebar.html' with most_recent=most_recent category_count=category_count %}
+                        </div>
+                    </div>
+                </div>
+
+                {% if is_paginated %}
+
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination pagination-template d-flex justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item"><a
+                                        href="?{{ page_request_var }}={{ page_obj.previous_page_number }}"
+                                        class="page-link"> <i class="fa fa-angle-left"></i></a></li>
+                            {% endif %}
+                            <li class="page-item">
+                                <a href="?{{ page_request_var }}={{ page_obj.number }}"
+                                   class="page-link active">{{ page_obj.number }}</a>
+                            </li>
+                            {% if page_obj.has_next %}
+                                <li class="page-item"><a
+                                        href="?{{ page_request_var }}={{ page_obj.next_page_number }}"
+                                        class="page-link"> <i class="fa fa-angle-right"></i></a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}

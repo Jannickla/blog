@@ -1,0 +1,12 @@
+<section class="newsletter-section">
+    <div class="container">
+        <h2>Get my E-Book for <strong>free</strong></h2>
+        <form class="newsletter-form" action="{% url 'marketing:email-list-signup' %}" method="POST">
+            <input type="text" placeholder="myawesome@email.com">
+            <button class="jl-btn">Get it</button>
+        </form>
+        <span class="whiteText">
+            <small>By getting the free e-book you'll subscripe to our newsletter</small>
+        </span>
+    </div>
+</section>
